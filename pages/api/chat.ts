@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
   const { data } = await axios.post('https://api.openai.com/v1/engine/davinci-codex/completions', {
     // text sent to API
     prompt: 'Hello, ',
@@ -22,4 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   });
 
   res.status(200).json(data);
+} catch (error: any) {
+  res.status(500).json({ error: error.message });
+}
 }
